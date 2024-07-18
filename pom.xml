@@ -6,7 +6,7 @@
 
   <groupId>me.thcr</groupId>
   <artifactId>ToonySMP</artifactId>
-  <version>1.1</version>
+  <version>1.2-DEV</version>
   <packaging>jar</packaging>
 
   <name>ToonySMP</name>
@@ -48,14 +48,6 @@
             <configuration>
                 <jvmTarget>1.8</jvmTarget>
                 <apiVersion>2.0</apiVersion>
-            </configuration>
-        </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-                <source>9</source>
-                <target>9</target>
             </configuration>
         </plugin>
     </plugins>
@@ -135,6 +127,13 @@
           <groupId>com.google.code.gson</groupId>
           <artifactId>gson</artifactId>
           <version>2.11.0</version>
+      </dependency>
+      <dependency>
+          <groupId>net.minecraft</groupId>
+          <artifactId>server</artifactId>
+          <version>1.0</version>
+          <scope>system</scope>
+          <systemPath>${project.basedir}/lib/paper.jar</systemPath>
       </dependency>
   </dependencies>
 </project>
