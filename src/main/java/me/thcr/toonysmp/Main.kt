@@ -4,6 +4,7 @@ import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
 import me.thcr.toonysmp.commands.CommandManager
 import me.thcr.toonysmp.config.ConfigManager
+import me.thcr.toonysmp.custom_recipes.RecipeManager
 import me.thcr.toonysmp.event_handlers.EventHandlerManager
 import me.thcr.toonysmp.files.FileManager
 import me.thcr.toonysmp.luckperms.LuckPermsManager
@@ -39,6 +40,7 @@ class Main : JavaPlugin() {
         val command_manager = CommandManager(mm, config_manager.config_wrapper, PLUGIN_NAME, server.scoreboardManager.mainScoreboard)
         web_server = Webserver(PLUGIN_NAME, this, config_manager.config_wrapper, file_manager)
         val event_handler_manager = EventHandlerManager(server, this, mm, config_manager.config_wrapper, luck_perms_manager.group_manager)
+        val recipe_manager = RecipeManager(server, config_manager.config_wrapper)
     }
 
     override fun onDisable() {

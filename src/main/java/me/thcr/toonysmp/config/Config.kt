@@ -1,55 +1,41 @@
 package me.thcr.toonysmp.config
 
-import com.google.gson.annotations.Expose
-import java.lang.reflect.Field
+import java.util.*
 import java.util.logging.Logger
 
-/**
- * Supported Types:
- * Boolean
- *
- */
 class Config(private val logger: Logger) {
-    @Expose
-    var ENABLE_TWITCH_AUTOMATION: Boolean = false
-    @Expose
-    var ENABLE_COLORED_ITEM_NAMES: Boolean = false
 
-    private var field_map: MutableMap<String, Field> = HashMap()
+    val config_map: MutableMap<ConfigOption, Any> = EnumMap(ConfigOption::class.java)
 
     init {
-        this.javaClass.declaredFields.forEach { field ->
-            field.isAccessible = true
-            field_map[field.name] = field
-        }
+        load_defaults()
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <T> get(field: String): T? {
-        if (!field_map.containsKey(field)) return null
-        return field_map[field]?.get(this) as T
+    fun <T> get(option: ConfigOption): T? {
+        return config_map[option] as? T
     }
 
-    fun <T> set(field: String, value: T) {
-        if (!field_map.containsKey(field)) {
-            return
+    fun <T> set(option: ConfigOption, value: T) {
+        if (config_map.containsKey(option)) {
+            config_map[option] = value as Any
+        } else {
+            logger.warning("Config option ${option.name} does not exist!")
         }
-        field_map[field]?.set(this, value)
     }
 
-    fun get_type(field: String): Class<*>? {
-        if (!field_map.containsKey(field)) {
-            logger.warning("Field $field does not exist!")
-            return null
+    fun get_type(option: ConfigOption): Class<*>? {
+        return config_map[option]?.javaClass
+    }
+
+    private fun load_defaults() {
+        config_map.keys.forEach {
+            config_map[it] = it.default_value
         }
-        return field_map[field]?.type
     }
 }
 
-enum class ConfigOption {
-    ENABLE_TWITCH_AUTOMATION,
-    ENABLE_COLORED_ITEM_NAMES;
-    init {
-        @Suppress("UNUSED_VARIABLE") var field: String = this.name
-    }
+enum class ConfigOption(val default_value: Any, val configurable: Boolean) {
+    ENABLE_TWITCH_AUTOMATION(true, false),
+    ENABLE_COLORED_ITEM_NAMES(true, false)
 }

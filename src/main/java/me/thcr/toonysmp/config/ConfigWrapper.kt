@@ -15,14 +15,7 @@ class ConfigWrapper(private val file_manager: FileManager, serde: Serde, private
     fun read_from_file() {
         val text = file_manager.read_file(config_path)
         val deserialized = deserializer.deserialize_class(text, Config::class.java)
-        config.javaClass.declaredFields.forEach { field ->
-            field.isAccessible = true
-            val x = field.get(deserialized)
-            val y: Any? = config.get(field.name)
-            if (x != null) {
-                if (y == null || x != y) config.set(field.name, x)
-            }
-        }
+        config.config_map.putAll(deserialized.config_map)
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
@@ -32,17 +25,17 @@ class ConfigWrapper(private val file_manager: FileManager, serde: Serde, private
     }
 
     fun set(config_option: ConfigOption, value: Any) {
-        config.set(config_option.name, value)
+        config.set(config_option, value)
         call(config_option)
         write_to_file()
     }
 
     fun <T> get(config_option: ConfigOption): T {
-        return config.get(config_option.name)!!
+        return config.get(config_option)!!
     }
 
     fun get_type(config_option: ConfigOption): Class<*> {
-        return config.get_type(config_option.name)!!
+        return config.get_type(config_option)!!
     }
 
     @Suppress("unused")

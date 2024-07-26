@@ -7,12 +7,12 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.ShapelessRecipe
 
 class DyeCrafts {
-    class RedDyeRecipe : ShapelessRecipe(NamespacedKey(Main.instance.PLUGIN_NAME, "redstone_to_red_dye"), ItemStack(Material.RED_DYE, 1)) {
+    class RedDyeRecipe : ShapelessRecipe(NamespacedKey(Main.instance.PLUGIN_NAME.lowercase(), "redstone_to_red_dye"), ItemStack(Material.RED_DYE, 1)) {
         init {
             addIngredient(ItemStack(Material.REDSTONE, 1))
         }
     }
-    class BlackDyeRecipe : ShapelessRecipe(NamespacedKey(Main.instance.PLUGIN_NAME, "coal_to_black_dye"), ItemStack(Material.BLACK_DYE, 1)) {
+    class BlackDyeRecipe : ShapelessRecipe(NamespacedKey(Main.instance.PLUGIN_NAME.lowercase(), "coal_to_black_dye"), ItemStack(Material.BLACK_DYE, 1)) {
         init {
             addIngredient(ItemStack(Material.COAL, 1))
         }
