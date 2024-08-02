@@ -6,17 +6,17 @@ import dev.jorel.commandapi.arguments.CustomArgument
 import dev.jorel.commandapi.arguments.GreedyStringArgument
 import dev.jorel.commandapi.executors.CommandExecutor
 
-class ConfigCommand(private val config_wrapper: ConfigWrapper, PLUGIN_NAME: String) {
+class ConfigCommand(private val config_wrapper: ConfigWrapper<GeneralConfig>, private val PLUGIN_NAME: String) {
     init {
         val command = CommandAPICommand("config")
-        val load_command = CommandAPICommand("load").executes(CommandExecutor { _, _ -> config_wrapper.read_from_file() })
-        command.withSubcommand(load_command)
+        val loadCommand = CommandAPICommand("load").executes(CommandExecutor { _, _ -> config_wrapper.read_from_file() })
+        command.withSubcommand(loadCommand)
         add_subcommands(command)
         command.withPermission("$PLUGIN_NAME:config").register()
     }
 
     private fun add_subcommands(command: CommandAPICommand) {
-        for (entry in ConfigOption.entries) {
+        for (entry in GeneralConfig.entries) {
             val executor = CommandExecutor { sender, args ->
                 val value = args.get("value")!!
                 sender.sendMessage("Successfully set ${entry.name} to $value")

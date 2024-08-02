@@ -3,8 +3,8 @@ package me.thcr.toonysmp.files
 import java.io.File
 
 class FileManager {
-    fun read_file(file_name: String): String {
-        val file = File(file_name)
+    fun read_file(fileName: String): String {
+        val file = File(fileName)
         if (file.exists() && file.isFile) {
             return file.readText(Charsets.UTF_8)
         }
@@ -13,8 +13,8 @@ class FileManager {
         return ""
     }
 
-    fun write_file(file_name: String, content: String) {
-        val file = File(file_name)
+    fun write_file(fileName: String, content: String) {
+        val file = File(fileName)
         if (!(file.exists() && file.isFile)) {
             file.getParentFile().mkdirs()
             file.createNewFile()

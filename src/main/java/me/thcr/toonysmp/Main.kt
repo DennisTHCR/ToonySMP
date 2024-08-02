@@ -2,6 +2,7 @@ package me.thcr.toonysmp
 
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
+import me.thcr.toonysmp.build_mode.NMSTest
 import me.thcr.toonysmp.commands.CommandManager
 import me.thcr.toonysmp.config.ConfigManager
 import me.thcr.toonysmp.custom_recipes.RecipeManager
@@ -20,9 +21,10 @@ class Main : JavaPlugin() {
 
     companion object {
         lateinit var instance: Main
-        private set
+            private set
     }
     val PLUGIN_NAME = name
+    val config_base_path = "plugins/$PLUGIN_NAME/config/"
     private lateinit var web_server: Webserver
     private lateinit var thread: Thread
     override fun onLoad() {
@@ -31,16 +33,17 @@ class Main : JavaPlugin() {
     override fun onEnable() {
         instance = this
         CommandAPI.onEnable()
+        val nmsTest = NMSTest()
         val api = Bukkit.getServicesManager().getRegistration(LuckPerms::class.java)?.provider!!
         val mm = MiniMessage.miniMessage()
-        val file_manager = FileManager()
+        val fileManager = FileManager()
         val serde = Serde()
-        val config_manager = ConfigManager(file_manager, serde, "plugins/$PLUGIN_NAME/config.json", logger)
-        val luck_perms_manager = LuckPermsManager(api, this, mm)
-        val command_manager = CommandManager(mm, config_manager.config_wrapper, PLUGIN_NAME, server.scoreboardManager.mainScoreboard)
-        web_server = Webserver(PLUGIN_NAME, this, config_manager.config_wrapper, file_manager)
-        val event_handler_manager = EventHandlerManager(server, this, mm, config_manager.config_wrapper, luck_perms_manager.group_manager)
-        val recipe_manager = RecipeManager(server, config_manager.config_wrapper)
+        val configManager = ConfigManager(fileManager, serde, config_base_path, logger)
+        val luckPermsManager = LuckPermsManager(api, this, mm)
+        val commandManager = CommandManager(mm, configManager.general_config, PLUGIN_NAME, server.scoreboardManager.mainScoreboard)
+        web_server = Webserver(PLUGIN_NAME, this, configManager.general_config, fileManager)
+        val eventHandlerManager = EventHandlerManager(server, this, mm, configManager.general_config, luckPermsManager.group_manager)
+        val recipeManager = RecipeManager(server)
     }
 
     override fun onDisable() {

@@ -4,52 +4,68 @@ import me.thcr.toonysmp.files.FileManager
 import me.thcr.toonysmp.serde.Deserializer
 import me.thcr.toonysmp.serde.Serde
 import me.thcr.toonysmp.serde.Serializer
+import java.util.*
 import java.util.logging.Logger
+import kotlin.collections.HashMap
 
-class ConfigWrapper(private val file_manager: FileManager, serde: Serde, private val config_path: String, logger: Logger) {
-    private var config: Config = Config(logger)
+class ConfigWrapper<T>(
+    private val file_manager: FileManager,
+    serde: Serde,
+    private val config_path: String,
+    logger: Logger,
+    private val option_class: Class<T>
+) where T : Enum<T>,
+        T : ConfigOptionInterface {
+
+    private var config: Config<T> = Config(logger, option_class)
     private val deserializer: Deserializer = serde.deserializer
     private val serializer: Serializer = serde.serializer
     private val subscription_map: MutableMap<String, MutableMap<String, Runnable>> = HashMap()
 
-    fun read_from_file() {
-        val text = file_manager.read_file(config_path)
-        val deserialized = deserializer.deserialize_class(text, Config::class.java)
-        config.config_map.putAll(deserialized.config_map)
+    init {
+        read_from_file()
     }
 
-    @Suppress("MemberVisibilityCanBePrivate")
+    fun read_from_file() {
+        val text = file_manager.read_file(config_path)
+        val deserialized = deserializer.deserialize_class(text, Map::class.java)
+        val enumMap: MutableMap<T, Any> = EnumMap(option_class)
+        deserialized.keys.forEach {
+            val enumKey = java.lang.Enum.valueOf(option_class, it as String)
+            enumMap[enumKey] = deserialized[it]!!
+        }
+        config.config_map.putAll(enumMap)
+    }
+
     fun write_to_file() {
         val text = serializer.serialize_class(config)
         file_manager.write_file(config_path, text)
     }
 
-    fun set(config_option: ConfigOption, value: Any) {
-        config.set(config_option, value)
-        call(config_option)
+    fun set(configOption: T, value: Any) {
+        config.set(configOption, value)
+        call(configOption)
         write_to_file()
     }
 
-    fun <T> get(config_option: ConfigOption): T {
-        return config.get(config_option)!!
+    fun <U> get(configOption: T): U {
+        return config.get(configOption)!!
     }
 
-    fun get_type(config_option: ConfigOption): Class<*> {
-        return config.get_type(config_option)!!
+    fun get_type(configOption: T): Class<*> {
+        return config.get_type(configOption)!!
     }
 
-    @Suppress("unused")
-    fun subscribe(config_option: ConfigOption, id: String, runnable: Runnable) {
-        if (subscription_map[config_option.name] !is MutableMap) subscription_map[config_option.name] = HashMap()
-        subscription_map[config_option.name]?.put(id, runnable)
+    fun subscribe(configOption: T, id: String, runnable: Runnable) {
+        if (subscription_map[configOption.name] !is MutableMap) subscription_map[configOption.name] = HashMap()
+        subscription_map[configOption.name]?.put(id, runnable)
     }
 
-    @Suppress("unused")
-    fun unsubscribe(config_option: ConfigOption, id: String) {
-        subscription_map[config_option.name]?.remove(id)
+    fun unsubscribe(configOption: T, id: String) {
+        subscription_map[configOption.name]?.remove(id)
     }
 
-    private fun call(config_option: ConfigOption) {
-        subscription_map[config_option.name]?.values?.forEach { it.run() }
+    private fun call(configOption: T) {
+        subscription_map[configOption.name]?.values?.forEach { it.run() }
     }
 }

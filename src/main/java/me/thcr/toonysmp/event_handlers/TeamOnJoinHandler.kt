@@ -12,8 +12,8 @@ class TeamOnJoinHandler(private val scoreboard: Scoreboard, private val group_ma
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
         if (!event.player.hasPlayedBefore() || scoreboard.getPlayerTeam(event.player as OfflinePlayer) !is Team) {
-            val _group = Groups.valueOf(group_manager.get_group(event.player).name.uppercase())
-            scoreboard.getTeam(_group.team_name)?.addPlayer(event.player)
+            val group = Groups.valueOf(group_manager.get_group(event.player).name.uppercase())
+            scoreboard.getTeam(group.team_name)?.addPlayer(event.player)
         }
     }
 }

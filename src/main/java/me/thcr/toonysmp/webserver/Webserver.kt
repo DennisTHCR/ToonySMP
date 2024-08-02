@@ -1,3 +1,5 @@
+@file:Suppress("Since15")
+
 package me.thcr.toonysmp.webserver
 
 import io.ktor.http.*
@@ -8,7 +10,7 @@ import io.ktor.server.netty.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import me.thcr.toonysmp.Main
-import me.thcr.toonysmp.config.ConfigOption
+import me.thcr.toonysmp.config.GeneralConfig
 import me.thcr.toonysmp.config.ConfigWrapper
 import me.thcr.toonysmp.files.FileManager
 import me.thcr.toonysmp.twitch.TwitchInstance
@@ -19,7 +21,7 @@ import java.security.KeyStore
 import kotlin.text.toCharArray
 
 @Suppress("LocalVariableName")
-class Webserver(PLUGIN_NAME: String, plugin: Main, config_wrapper: ConfigWrapper, file_manager: FileManager) {
+class Webserver(PLUGIN_NAME: String, plugin: Main, config_wrapper: ConfigWrapper<GeneralConfig>, file_manager: FileManager) {
     private val twitchInstance = TwitchInstance(PLUGIN_NAME, plugin, config_wrapper, file_manager)
     private val keyStoreFile = File("plugins/$PLUGIN_NAME/keystore.jks")
     private val keyStore: KeyStore = KeyStore.getInstance(keyStoreFile, "123456".toCharArray())
@@ -52,7 +54,7 @@ class Webserver(PLUGIN_NAME: String, plugin: Main, config_wrapper: ConfigWrapper
 
 
     init {
-        val enabled: Boolean = config_wrapper.get(ConfigOption.ENABLE_TWITCH_AUTOMATION)
+        val enabled: Boolean = config_wrapper.get(GeneralConfig.ENABLE_TWITCH_AUTOMATION)
         if (enabled) start()
     }
     private fun start() {

@@ -13,11 +13,11 @@ class GroupManager(private val scoreboard: Scoreboard, private val mm: MiniMessa
     init {
         api.groupManager.loadedGroups.forEach { group ->
             val prefix = get_group_prefix(group)
-            val _group = Groups.valueOf(group.name.uppercase())
-            val name = _group.team_name
+            val groupEnum = Groups.valueOf(group.name.uppercase())
+            val name = groupEnum.team_name
             if (scoreboard.getTeam(name) !is Team) scoreboard.registerNewTeam(name)
             scoreboard.getTeam(name)?.prefix(prefix)
-            scoreboard.getTeam(name)?.color(_group.color)
+            scoreboard.getTeam(name)?.color(groupEnum.color)
         }
     }
 
