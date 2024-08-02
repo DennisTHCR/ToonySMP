@@ -1,0 +1,23 @@
+# TODO
+## Refactoring
+- [x] [Respect Kotlin Style Guidelines](refactoring/kotlin_guidelines.md)
+- [ ] Redo [Config system with maps](refactoring/map_config.md)
+- [ ] [Redo Twitch / Webserver to be more stable](refactoring/twitch_rework.md)
+## Additions
+- [ ] Replace [sleep-most](https://github.com/mrgeneralq/sleep-most)
+- [ ] Replace [GriefPrevention](https://github.com/GriefPrevention/GriefPrevention)
+- [ ] Replace [SimpleScore](https://github.com/r4g3baby/SimpleScore)
+- [ ] Replace [AxGraves](https://github.com/Artillex-Studios/AxGraves)
+- [ ] Replace / Remove [AdvancedSetSpawn](https://www.curseforge.com/minecraft/bukkit-plugins/advancedsetspawn)
+- [x] Replace [EssentialsX (Chat)](https://github.com/EssentialsX/Essentials/)
+- [ ] Replace [MOTD](https://www.spigotmc.org/resources/motd-1-8-1-20.8390/)
+- [ ] Replace [SetHome](https://github.com/DownThePark/SetHome)
+- [ ] Replace [SimpleTPA](https://www.spigotmc.org/resources/simple-tpa.64270/)
+- [ ] Replace [SuperVanish](https://www.spigotmc.org/resources/supervanish-be-invisible.1331/)
+- [ ] Shade (Maybe Extend/Replace) [Vivecraft Spigot Extensions](https://github.com/jrbudda/Vivecraft_Spigot_Extensions)
+- [ ] [Database](additions/database.md)
+- [ ] [Currency](additions/currency.md)
+- [ ] [CraftingStore integration](additions/crafting_store.md)
+- [ ] [Staff Mode](additions/staff_mode.md)
+- [ ] [Streamer Mode](additions/streamer_mode.md)
+- [ ] [Build Mode](additions/build_mode.md)
