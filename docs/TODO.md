@@ -15,6 +15,7 @@
 - [ ] Replace [SimpleTPA](https://www.spigotmc.org/resources/simple-tpa.64270/)
 - [ ] Replace [SuperVanish](https://www.spigotmc.org/resources/supervanish-be-invisible.1331/)
 - [ ] Shade (Maybe Extend/Replace) [Vivecraft Spigot Extensions](https://github.com/jrbudda/Vivecraft_Spigot_Extensions)
+- [ ] [Custom Whitelist Solution](additions/whitelist.md)
 - [ ] [Database](additions/database.md)
 - [ ] [Currency](additions/currency.md)
 - [ ] [CraftingStore integration](additions/crafting_store.md)
