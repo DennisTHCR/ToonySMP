@@ -8,3 +8,5 @@ Follow the Kotlin Styling Guidelines (the ones IntelliJ IDEA forces on you)
 # Development
 As I am the only developer on this project, it will be put on hold, until I am done with my main project (for school).
 After that, I will make sure to work through the [todo](TODO.md).
+
+# ONLY KOTLIN CODE WILL BE ACCEPTED!!!
