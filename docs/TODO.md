@@ -3,6 +3,7 @@
 - [x] [Respect Kotlin Style Guidelines](refactoring/kotlin_guidelines.md)
 - [ ] Redo [Config system with maps](refactoring/map_config.md)
 - [ ] [Redo Twitch / Webserver to be more stable](refactoring/twitch_rework.md)
+- [ ] Change all permissions to the normal `plugin.permission` format.
 ## Additions
 - [ ] Replace [sleep-most](https://github.com/mrgeneralq/sleep-most)
 - [ ] Replace [GriefPrevention](https://github.com/GriefPrevention/GriefPrevention)
